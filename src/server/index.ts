@@ -15,12 +15,17 @@ app.use(express.json());
 app.post('/sign-up', routeAdapter(makeSignUpController()));
 app.post('/sign-in', routeAdapter(makeSignInController()));
 
-app.get('/leads', middlewareAdapter(makeAuthenticationMiddleware()), routeAdapter(makeListLeadsController()));
+app.get(
+  '/leads',
+  middlewareAdapter(makeAuthenticationMiddleware()),
+  middlewareAdapter(makeAuthorizationMiddleware(['leads:read'])),
+  routeAdapter(makeListLeadsController())
+);
 
 app.post(
   '/leads',
   middlewareAdapter(makeAuthenticationMiddleware()),
-  middlewareAdapter(makeAuthorizationMiddleware(['ADMIN'])),
+  middlewareAdapter(makeAuthorizationMiddleware(['leads:write'])),
   (req, res) => {
     console.log(req.metadata?.account);
 
