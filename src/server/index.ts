@@ -11,6 +11,7 @@ app.use(express.json());
 
 app.post('/sign-up', routeAdapter(ControllerFactory.makeSignUpController()));
 app.post('/sign-in', routeAdapter(ControllerFactory.makeSignInController()));
+app.post('/refresh-token', routeAdapter(ControllerFactory.makeRefreshTokenController()));
 
 app.get(
   '/leads',
